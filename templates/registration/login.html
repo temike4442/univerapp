@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Авторизация</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="sign-in">
+            <div class="container pt-2">
+                    <h1>Окуу жайдын аталышы</h1>    
+                
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="{% static 'images/signin-image.jpg' %}" alt="sing up image"></figure>
+                    </div>
+                    <div class="signin-form">
+                        <h2 class="form-title w-100" style="color:#91CF50">Платформага кирүү</h2>
+                        <form method="POST" class="register-form" id="login-form" action="#">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="username" id="your_name" placeholder="Логин"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Пароль"/>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="btn-success w-100 rounded" value="Кирүү"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--  <script src="{% static 'js/main.js' %}"></script>-->
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
