@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Course(models.Model):
     name = models.CharField(max_length=100,null=False,verbose_name='Имя курса')
+    steps = models.SmallIntegerField('Длительность курса в уроках',null=False,blank=False,default=10)
 
     def __str__(self):
         return self.name
@@ -54,8 +55,8 @@ class Teacher(User):
 class Message(models.Model):
     send_user = models.OneToOneField(User,on_delete=models.SET_NULL,related_name='send_user',null=True)
     receiver_user = models.OneToOneField(User, on_delete=models.SET_NULL,related_name='receiver_user',null=True)
-    date_send_message = models.DateTimeField('Дата отправки',auto_now_add=True)
-    date_read_message = models.DateTimeField('Дата прочитания')
+    date_send_message = models.DateTimeField('Дата отправки',auto_now_add=True,null=True)
+    date_read_message = models.DateTimeField('Дата прочитания',null=True)
     title = models.CharField(max_length=200,blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True)
 
@@ -76,9 +77,9 @@ class Material(models.Model):
         verbose_name_plural = 'Обучающий материалы'
 
 class HomeTask(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_materials')
-    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name='material_send_user', null=True)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='material_receiver_user',
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='hometask_materials')
+    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='hometask_receiver_user',
                                          null=True)
 
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm
 
-from .models import User,Student,Teacher,Course,Message
+from .models import User,Student,Teacher,Course,Message,Material,HomeTask
 
 class MyUserAdmin(UserAdmin):
     list_display = ['last_name', 'first_name', 'birthday', 'username', 'email', 'password', ]
@@ -28,5 +28,7 @@ class TeacherUserAdmin(UserAdmin):
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Course)
 admin.site.register(Message)
+admin.site.register(Material)
+admin.site.register(HomeTask)
 admin.site.register(Student, CustomUserAdmin)
 admin.site.register(Teacher, TeacherUserAdmin)
