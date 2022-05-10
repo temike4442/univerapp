@@ -25,7 +25,7 @@ class User(AbstractUser):
     last_name = models.CharField('Фамилия', max_length=100, null=True)
     otchestvo = models.CharField('Отчество', max_length=100, null=True)
     birthday = models.DateField('Дата рождения', blank=True, null=True)
-    email = models.EmailField('Email', max_length=100)
+    email = models.EmailField('Email', max_length=100,null=True,blank=True)
     number = models.CharField('Номер телефона', max_length=50, null=True)
     address = models.CharField('Адрес', max_length=100, null=True)
     course = models.ManyToManyField(Course, related_name='student_course')
@@ -47,6 +47,7 @@ class Student(User):
         verbose_name_plural = 'Студенты'
 
 class Teacher(User):
+    about = models.CharField('Немного о себе', max_length=200, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Учитель'
