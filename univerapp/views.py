@@ -11,3 +11,6 @@ def home(request):
 class IndexView(ListView):
     model = User
     template_name = 'home.html'
+
+
+

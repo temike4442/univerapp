@@ -32,6 +32,7 @@ class User(AbstractUser):
     is_student = models.BooleanField('Студент', default=False)
     is_teacher = models.BooleanField('Учитель', default=False)
     image = models.ImageField(verbose_name='Фото', upload_to='uploads/accounts/', blank=True)
+    courses = models.ManyToManyField(Course,'courses')
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -47,7 +48,6 @@ class Student(User):
         verbose_name_plural = 'Студенты'
 
 class Teacher(User):
-    about = models.CharField('Немного о себе', max_length=200, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Учитель'

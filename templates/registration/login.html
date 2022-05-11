@@ -38,8 +38,13 @@
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="your_pass" placeholder="Пароль"/>
                             </div>
+                            <div class="form-group">
+                                {% if form.errors %}
+                                    <p style="color:red">Логин же пароль туура эмес киргизилди</p>
+                                {% endif %}
+                            </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="btn-success w-100 rounded" value="Кирүү"/>
+                                <input type="submit" name="login" id="signin" class="btn-success w-100 rounded" value="Кирүү"/>
                             </div>
                         </form>
                     </div>

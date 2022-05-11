@@ -13,4 +13,4 @@ class TeacherUserCreationForm(UserCreationForm):
 
     class Meta:
         model = Teacher
-        fields = ('last_name', 'first_name', 'otchestvo', 'about','username', 'password', 'birthday', 'is_student', 'is_teacher', 'number','image')
+        fields = ('last_name', 'first_name', 'otchestvo','username', 'password', 'birthday', 'is_student', 'is_teacher', 'number','image')
