@@ -5,20 +5,18 @@
     <meta charset="UTF-8">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <title>Title</title>
 </head>
 <body>
 
-<div class="container">
+<div class="container mt-5">
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card chat-app">
             <div id="plist" class="people-list">
                 <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Search...">
+                   <h3> Диалогдор</h3>
                 </div>
                 <ul class="list-unstyled chat-list mt-2 mb-0">
                     <li class="clearfix">
@@ -35,34 +33,6 @@
                             <div class="status"> <i class="fa fa-circle online"></i> online </div>
                         </div>
                     </li>
-                    <li class="clearfix">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">Mike Thomas</div>
-                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">Christian Kelly</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">Monica Ward</div>
-                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">Dean Henry</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
-                        </div>
-                    </li>
                 </ul>
             </div>
             <div class="chat">
@@ -74,14 +44,7 @@
                             </a>
                             <div class="chat-about">
                                 <h6 class="m-b-0">Aiden Chavez</h6>
-                                <small>Last seen: 2 hours ago</small>
                             </div>
-                        </div>
-                        <div class="col-lg-6 hidden-sm text-right">
-                            <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
                         </div>
                     </div>
                 </div>
@@ -90,7 +53,6 @@
                         <li class="clearfix">
                             <div class="message-data text-right">
                                 <span class="message-data-time">10:10 AM, Today</span>
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                             </div>
                             <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
                         </li>
@@ -106,14 +68,19 @@
                             </div>
                             <div class="message my-message">Project has been already finished and I have results to show you.</div>
                         </li>
+
+
                     </ul>
                 </div>
                 <div class="chat-message clearfix">
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-send"></i></span>
+                            <span class="input-group-text"><i class="fa fa-folder"></i></span>
                         </div>
                         <input type="text" class="form-control" placeholder="Enter text here...">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-send"></i></span>
+                        </div>
                     </div>
                 </div>
             </div>

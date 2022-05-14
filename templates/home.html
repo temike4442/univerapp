@@ -23,19 +23,20 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+								{% if user.image %}
+								<img src="{{ user.image.url }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+								{% endif %}
 								<div class="mt-3">
 									<h4>{{ user.last_name }} {{ user.first_name }} {{ user.otchestvo }}</h4>
 									<a href="{% url 'logout' %}"><button class="btn btn-outline-primary">Чыгуу</button></a>
 								</div>
 							</div>
 							<hr class="my-4">
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
-									<img src="{% static 'images/message.png' %}" style="width:30">
-									<h6 class="ml-2">Келген каттар <span class="badge badge-secondary">New</span></h6>
-								</li>
-							</ul>
+								<div>
+									<a href="{% url 'chats' %}">
+										<img src="{% static 'images/message.png' %}" style="width:20" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Келген каттар <span class="badge badge-success">New</span></p></a>
+								</div>
 						</div>
 					</div>
 				</div>

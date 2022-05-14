@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import StudentUserCreationForm,TeacherUserCreationForm
 
-from .models import User,Student,Teacher,Course,Message,Material,HomeTask
+from .models import User,Student,Teacher,Course,Message,Material,HomeTask,Dialog
 
 class MyUserAdmin(UserAdmin):
     list_display = ['last_name', 'first_name', 'birthday', 'username', 'email', 'password', ]
@@ -27,7 +27,7 @@ class TeacherUserAdmin(UserAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'last_name', 'first_name', 'otchestvo','about', 'username', 'password', 'birthday', 'address', 'email',
+                'last_name', 'first_name', 'otchestvo', 'username', 'password', 'birthday', 'address', 'email',
                 'is_student', 'is_teacher',
                 'number','courses', 'image')
         }),)
@@ -36,6 +36,7 @@ class TeacherUserAdmin(UserAdmin):
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Course)
 admin.site.register(Message)
+admin.site.register(Dialog)
 admin.site.register(Material)
 admin.site.register(HomeTask)
 admin.site.register(Student, CustomUserAdmin)

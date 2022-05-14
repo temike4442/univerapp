@@ -65,6 +65,15 @@ class Message(models.Model):
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
 
+class Dialog(models.Model):
+    user1 = models.ForeignKey(User,on_delete=models.CASCADE,related_name='dialog_user1')
+    user2 = models.ForeignKey(User,on_delete=models.CASCADE,related_name='dialog_user2')
+    date_create = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+
+    class Meta:
+        verbose_name = 'Чат'
+        verbose_name_plural = 'Чаты'
+
 class Material(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE,related_name='course_materials')
     send_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='material_send_user', null=True)
@@ -87,6 +96,8 @@ class HomeTask(models.Model):
 
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
+
+
 
     class Meta:
         verbose_name = 'Обучающий материал'

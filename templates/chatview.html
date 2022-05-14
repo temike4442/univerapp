@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container mt-5">
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card chat-app">
+            <div id="plist" class="people-list">
+                <div class="input-group">
+                   <h3> Диалогдор</h3>
+                </div>
+                <ul class="list-unstyled chat-list mt-2 mb-0">
+
+                    {% for chat in chats %}
+                        {% if chat.user1.pk == user.pk %}
+                            <li class="clearfix border  border-primary rounded">
+                                <img src="{{ chat.user2.image.url }}" alt="avatar">
+                                <div class="about">
+                                    <div class="name">{{ chat.user2.first_name }} {{ chat.user2.last_name }}</div>
+                                </div>
+                            </li>
+                        {% else %}
+                        <li class="clearfix border-primary rounded">
+                            <img src="{{ chat.user1.image.url }}" alt="avatar">
+                            <div class="about">
+                                <div class="name">{{ chat.user1.username }}</div>
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <div class="chat">
+                <div class="chat-header clearfix">
+                    <div class="row">
+                    </div>
+                </div>
+                <div class="chat-history">
+                    <img src="{% static 'images/chat.png' %}" style="width:80%; margin:auto" >
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
