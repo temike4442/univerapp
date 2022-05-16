@@ -22,19 +22,25 @@
 
                     {% for chat in chats %}
                         {% if chat.user1.pk == user.pk %}
+                        <a href="{% url 'chat_id' chat.pk %}">
                             <li class="clearfix border  border-primary rounded">
+                                {% if chat.user2.image %}
                                 <img src="{{ chat.user2.image.url }}" alt="avatar">
+                                {% endif %}
                                 <div class="about">
                                     <div class="name">{{ chat.user2.first_name }} {{ chat.user2.last_name }}</div>
                                 </div>
                             </li>
+                        </a>
                         {% else %}
+                    <a href="{% url 'chat_id' chat.pk %}">
                         <li class="clearfix border-primary rounded">
-                            <img src="{{ chat.user1.image.url }}" alt="avatar">
+                            <img src="{{ chat.user2.image.url }}" alt="avatar">
                             <div class="about">
                                 <div class="name">{{ chat.user1.username }}</div>
                             </div>
                         </li>
+                    </a>
                         {% endif %}
                     {% endfor %}
 

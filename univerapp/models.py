@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Course(models.Model):
     name = models.CharField(max_length=100,null=False,verbose_name='Имя курса')
+    teacher = models.ForeignKey('Teacher',on_delete=models.SET_NULL,null=True,blank=True,related_name='teacher_course')
     steps = models.SmallIntegerField('Длительность курса в уроках',null=False,blank=False,default=10)
 
     def __str__(self):
@@ -54,11 +55,10 @@ class Teacher(User):
         verbose_name_plural = 'Учителя'
 
 class Message(models.Model):
-    send_user = models.OneToOneField(User,on_delete=models.SET_NULL,related_name='send_user',null=True)
-    receiver_user = models.OneToOneField(User, on_delete=models.SET_NULL,related_name='receiver_user',null=True)
+    send_user = models.ForeignKey(User,on_delete=models.SET_NULL,related_name='send_user',null=True)
+    receiver_user = models.ForeignKey(User, on_delete=models.SET_NULL,related_name='receiver_user',null=True)
     date_send_message = models.DateTimeField('Дата отправки',auto_now_add=True,null=True)
-    date_read_message = models.DateTimeField('Дата прочитания',null=True)
-    title = models.CharField(max_length=200,blank=True)
+    title = models.CharField(max_length=200,blank=True,null=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True)
 
     class Meta:
@@ -69,6 +69,8 @@ class Dialog(models.Model):
     user1 = models.ForeignKey(User,on_delete=models.CASCADE,related_name='dialog_user1')
     user2 = models.ForeignKey(User,on_delete=models.CASCADE,related_name='dialog_user2')
     date_create = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+    last_message_date = models.DateTimeField(null=True,blank=True)
+    unread_message_user = models.OneToOneField(User,on_delete=models.SET_NULL,null=True,blank=True)
 
     class Meta:
         verbose_name = 'Чат'
