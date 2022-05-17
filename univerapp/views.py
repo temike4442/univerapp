@@ -34,15 +34,25 @@ class ChatView(ListView):
         if(dialog_object.user1 == self.request.user):
             receiver = dialog_object.user2.pk
         query = Message.objects.filter(Q(send_user=self.request.user.pk) & Q(receiver_user=receiver)|Q(send_user=receiver) & Q(receiver_user=self.request.user.pk)).order_by('date_send_message')
-        print(query)
         return query
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self,**kwargs):
+        context = super(ChatView,self).get_context_data(**kwargs)
         dialog_object = Dialog.objects.get(pk=self.kwargs.get('dialog_id'))
         receiver = dialog_object.user1
         if (dialog_object.user1 == self.request.user):
             receiver = dialog_object.user2
         context['receiver'] = receiver
-        print(receiver.image)
-        return
+        context['chats'] = Dialog.objects.filter(Q(user1=self.request.user.pk)|Q(user2=self.request.user.pk))
+        return context
+
+def send_message(request):
+    if request.method=='POST':
+        text = request.POST.get("message_text", "")
+        send_to = request.POST.get("send_to", "")
+        receiver_user = User.objects.get(pk=send_to)
+        image = request.FILES['image']
+        Message.objects.create(send_user=request.user,receiver_user=receiver_user,title=text,file=image)
+        return redirect('chats')
+    else:
+        return  redirect('chat/')

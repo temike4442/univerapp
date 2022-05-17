@@ -6,7 +6,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
-    <title>Title</title>
+    <title>Чат</title>
 </head>
 <body>
 
@@ -19,7 +19,29 @@
                    <h3> Диалогдор</h3>
                 </div>
                 <ul class="list-unstyled chat-list mt-2 mb-0">
-
+                    {% for chat in chats %}
+                        {% if chat.user1.pk == user.pk %}
+                        <a href="{% url 'chat_id' chat.pk %}">
+                            <li class="clearfix border  border-primary rounded">
+                                {% if chat.user2.image %}
+                                <img src="{{ chat.user2.image.url }}" alt="avatar">
+                                {% endif %}
+                                <div class="about">
+                                    <div class="name">{{ chat.user2.first_name }} {{ chat.user2.last_name }}</div>
+                                </div>
+                            </li>
+                        </a>
+                        {% else %}
+                    <a href="{% url 'chat_id' chat.pk %}">
+                        <li class="clearfix border-primary rounded">
+                            <img src="{{ chat.user2.image.url }}" alt="avatar">
+                            <div class="about">
+                                <div class="name">{{ chat.user1.username }}</div>
+                            </div>
+                        </li>
+                    </a>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="chat">
@@ -32,7 +54,7 @@
                                 {% endif %}
                             </a>
                             <div class="chat-about">
-                                <h6 class="m-b-0">Aiden Chavez</h6>
+                                <h6 class="m-b-0">{{ receiver.last_name }} {{ receiver.first_name }} {{ receiver.otchestvo }}</h6>
                             </div>
                         </div>
                     </div>
@@ -40,35 +62,41 @@
                 <div class="chat-history">
                     <ul class="m-b-0">
                         {% for message in messages %}
-                            {% if message.send_user == user.pk %}
+                            {% if message.send_user.pk == user.pk %}
                                 <li class="clearfix">
                                     <div class="message-data text-right">
-                                        <span class="message-data-time">10:10 AM, Today</span>
+                                        <span class="message-data-time">{{ message.date_send_message|date:'Y-m-d H:i' }}</span>
                                     </div>
                                     <div class="message other-message float-right"> {{ message.title }} </div>
                                 </li>
                             {% else %}
                                 <li class="clearfix">
                                     <div class="message-data">
-                                        <span class="message-data-time">10:12 AM, Today</span>
+                                        <span class="message-data-time">{{ message.date_send_message|date:'Y-m-d H:i' }}</span>
                                     </div>
-                                    <div class="message my-message">Are we meeting today?</div>
+                                    <div class="message my-message">{{ message.title }} </div>
                                 </li>
                             {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
+
+                <form action=" {% url 'send_message' %} " method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" value="{{ receiver.pk }}" style="display:none" name="send_to">
                 <div class="chat-message clearfix">
                     <div class="input-group mb-0">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-folder"></i></span>
+                            <span class="input-group-text"><i class="fa fa-folder"><input type="file" name="image"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Enter text here...">
+                        <textarea class="form-control" name="message_text" cols="40" rows="2" placeholder="Текст жазыныз..." ></textarea>
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-send"></i></span>
+
+                            <button type="submit" class="form-control btn btn-primary m-2">Жөнөтүү</button>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
