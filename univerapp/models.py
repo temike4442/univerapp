@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 class Course(models.Model):
     name = models.CharField(max_length=100,null=False,verbose_name='Имя курса')
     teacher = models.ForeignKey('Teacher',on_delete=models.SET_NULL,null=True,blank=True,related_name='teacher_course')
-    steps = models.SmallIntegerField('Длительность курса в уроках',null=False,blank=False,default=10)
 
     def __str__(self):
         return self.name
@@ -29,11 +28,10 @@ class User(AbstractUser):
     email = models.EmailField('Email', max_length=100,null=True,blank=True)
     number = models.CharField('Номер телефона', max_length=50, null=True)
     address = models.CharField('Адрес', max_length=100, null=True)
-    course = models.ManyToManyField(Course, related_name='student_course')
+    course = models.ManyToManyField(Course, related_name='student_course',blank=True)
     is_student = models.BooleanField('Студент', default=False)
     is_teacher = models.BooleanField('Учитель', default=False)
     image = models.ImageField(verbose_name='Фото', upload_to='uploads/accounts/', blank=True)
-    courses = models.ManyToManyField(Course,'courses')
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -93,14 +91,10 @@ class HomeTask(models.Model):
     teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
     student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='hometask_receiver_user',
                                          null=True)
-
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
-
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
 
-
-
     class Meta:
-        verbose_name = 'Обучающий материал'
-        verbose_name_plural = 'Обучающий материалы'
+        verbose_name = 'Тапшырма'
+        verbose_name_plural = 'Тапшырмалар'

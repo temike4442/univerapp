@@ -1,0 +1,119 @@
+{% load static %}
+
+<html>
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ user.last_name }} {{ user.first_name }} {{ user.otchestvo }}</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+<div class="container">
+	<h1>Окуу жайдын аталышы</h1>
+		<div class="main-body">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex flex-column align-items-center text-center">
+								{% if user.image %}
+								<img src="{{ user.image.url }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+								{% endif %}
+								<div class="mt-3">
+									<h4>{{ user.last_name }} {{ user.first_name }} {{ user.otchestvo }}</h4>
+									<a href="{% url 'logout' %}"><button class="btn btn-outline-primary">Чыгуу</button></a>
+								</div>
+							</div>
+							<hr class="my-4">
+
+									<a href="{% url 'chats' %}">
+										<img src="{% static 'images/message.png' %}" style="width:20" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Келген каттар <span class="badge badge-success">New</span></p></a>
+
+							<hr class="my-4">
+							<h4>Курска тиешелүү</h4>
+							<a href="materials/">
+										<img src="{% static 'images/books.jpg' %}" style="width:40" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Материалдар</p></a>
+							<hr class="my-4">
+							<a href="{% url 'chats' %}">
+										<img src="{% static 'images/homework.jpg' %}" style="width:40" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Тапшырмалар</p></a>
+							<hr class="my-4">
+							<a href="https://web.whatsapp.com" target="_blank">
+										<img src="{% static 'images/whatsapp.png' %}" style="width:40" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Whatsapp группа</p></a>
+							<hr class="my-4">
+							<a href="https://zoom.us/" target="_blank">
+										<img src="{% static 'images/zoom.png' %}" style="width:40" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Онлайнга өтүү</p></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card">
+						<div class="card-body">
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">Курс:</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="text" class="form-control" value="{{ course.name }}" disabled>
+								</div>
+								<br>
+								<br>
+								<div class="col-sm-3">
+									<h6 class="mb-0">Окутуучу:</h6>
+								</div>
+								<div class="col-sm-2">
+									{% if course.teacher.image %}
+										<img src="{{ course.teacher.image.url }}" alt="Admin" class="rounded bg-primary" width="90">
+									{% endif %}
+								</div>
+								<div class="col-sm-7 text-secondary">
+									<br>
+									<a href=""><h3>{{ course.teacher.last_name }}
+										{{ course.teacher.first_name }} {{ course.teacher.otchestvo }}</h3></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="d-flex align-items-center mb-3">Студенттер тизмеси</h5>
+									<hr>
+									{% for student in students %}
+									<a href="#">
+										<div class="col-12 row">
+											<div class="col-2">
+												{% if student.image %}
+												<img src="{{ student.image.url }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="50">
+												{% endif %}
+											</div>
+											<div class="col-10">
+												<h5>{{ student.last_name }} {{ student.first_name }} {{ student.otchestvo }}</h5>
+											</div>
+										</div>
+										</a>
+										<hr>
+									{% endfor %}
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

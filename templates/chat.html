@@ -15,6 +15,7 @@
     <div class="col-lg-12">
         <div class="card chat-app">
             <div id="plist" class="people-list">
+                <a href="{% url 'home' %}">Башкы бет</a>
                 <div class="input-group">
                    <h3> Диалогдор</h3>
                 </div>
@@ -68,6 +69,9 @@
                                         <span class="message-data-time">{{ message.date_send_message|date:'Y-m-d H:i' }}</span>
                                     </div>
                                     <div class="message other-message float-right"> {{ message.title }} </div>
+                                    {% if message.file %}
+                                    <a href="{{ message.file.url }}" >{{ message.file }}</a>
+                                    {% endif %}
                                 </li>
                             {% else %}
                                 <li class="clearfix">

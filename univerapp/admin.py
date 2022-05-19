@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             'fields': (
             'last_name', 'first_name', 'otchestvo', 'username', 'password', 'birthday','address','email', 'is_student', 'is_teacher',
-            'number','courses', 'image')
+            'number','course', 'image')
         }),)
 
 class TeacherUserAdmin(UserAdmin):
@@ -29,7 +29,7 @@ class TeacherUserAdmin(UserAdmin):
             'fields': (
                 'last_name', 'first_name', 'otchestvo', 'username', 'password', 'birthday', 'address', 'email',
                 'is_student', 'is_teacher',
-                'number','courses', 'image')
+                'number', 'image')
         }),)
 
 

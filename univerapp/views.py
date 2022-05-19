@@ -23,6 +23,23 @@ class ChatsView(ListView):
         query = Dialog.objects.filter(Q(user1=self.request.user.pk)|Q(user2=self.request.user.pk))
         return query
 
+class CourseView(ListView):
+    model = User
+    template_name = 'courseview.html'
+    context_object_name = 'students'
+
+    def get_queryset(self):
+        course_object = self.kwargs.get('course_id')
+        query = User.objects.filter(course__pk=course_object)
+        print(query)
+        return query
+
+    def get_context_data(self,**kwargs):
+        context = super(CourseView,self).get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
+        context['chats'] = Dialog.objects.filter(Q(user1=self.request.user.pk)|Q(user2=self.request.user.pk))
+        return context
+
 class ChatView(ListView):
     model = Message
     template_name = 'chat.html'
@@ -56,3 +73,20 @@ def send_message(request):
         return redirect('chats')
     else:
         return  redirect('chat/')
+
+
+class MaterialsView(ListView):
+    model = Material
+    template_name = 'materialsview.html'
+    context_object_name = 'materials'
+
+    def get_queryset(self):
+        course_object = self.kwargs.get('course_id')
+        query = Material.objects.filter(course__pk=course_object)
+        print(query)
+        return query
+
+    def get_context_data(self,**kwargs):
+        context = super(MaterialsView,self).get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
+        return context
