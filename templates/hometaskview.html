@@ -39,7 +39,7 @@
 
 							<hr class="my-4">
 							<h4>Курска тиешелүү</h4>
-							<a href="materials/">
+							<a href="{% url 'materials' course.pk %}">
 										<img src="{% static 'images/books.jpg' %}" style="width:40" class="ml-3">
 									<p style="display: inline-block;" class="ml-3">Материалдар</p></a>
 							<hr class="my-4">
@@ -89,21 +89,16 @@
 						<div class="col-sm-12">
 							<div class="card">
 								<div class="card-body">
-									<h5 class="d-flex align-items-center mb-3">Студенттер тизмеси</h5>
+									<h5 class="d-flex align-items-center mb-3">Практикалык тапшырмалар {{ course.name }}</h5>
 									<hr>
-									{% for student in students %}
-									<a href="#">
+									{% for hometask in hometasks %}
 										<div class="col-12 row">
-											<div class="col-2">
-												{% if student.image %}
-												<img src="{{ student.image.url }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="50">
-												{% endif %}
-											</div>
 											<div class="col-10">
-												<h5>{{ student.last_name }} {{ student.first_name }} {{ student.otchestvo }}</h5>
+
+												<a href="{% url 'hometask_detail' course.pk hometask.pk %}"><p>{{ hometask.title }}</p></a>
 											</div>
 										</div>
-										</a>
+
 										<hr>
 									{% endfor %}
 

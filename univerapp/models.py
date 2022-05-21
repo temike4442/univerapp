@@ -88,12 +88,16 @@ class Material(models.Model):
 
 class HomeTask(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='hometask_materials')
-    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='hometask_receiver_user',
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='hometask_receiver_user',
                                          null=True)
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
+    is_exec = models.BooleanField(default=False)
+    exec_date = models.DateTimeField(null=True,blank=True)
+    exec_file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=True)
+    status = models.CharField('Статус',default='ожидает ответа',max_length=60)
 
     class Meta:
         verbose_name = 'Тапшырма'

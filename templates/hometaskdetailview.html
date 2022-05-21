@@ -39,11 +39,11 @@
 
 							<hr class="my-4">
 							<h4>Курска тиешелүү</h4>
-							<a href="materials/">
+							<a href="{% url 'chats' %}">
 										<img src="{% static 'images/books.jpg' %}" style="width:40" class="ml-3">
 									<p style="display: inline-block;" class="ml-3">Материалдар</p></a>
 							<hr class="my-4">
-							<a href="{% url 'hometasks' course.pk %}">
+							<a href="{% url 'chats' %}">
 										<img src="{% static 'images/homework.jpg' %}" style="width:40" class="ml-3">
 									<p style="display: inline-block;" class="ml-3">Тапшырмалар</p></a>
 							<hr class="my-4">
@@ -89,23 +89,54 @@
 						<div class="col-sm-12">
 							<div class="card">
 								<div class="card-body">
-									<h5 class="d-flex align-items-center mb-3">Студенттер тизмеси</h5>
+									<h5 class="d-flex align-items-center mb-3">Практикалык тапшырма {{ course.name }}</h5>
 									<hr>
-									{% for student in students %}
-									<a href="#">
 										<div class="col-12 row">
-											<div class="col-2">
-												{% if student.image %}
-												<img src="{{ student.image.url }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="50">
-												{% endif %}
+											<div class="col-4 text-danger">
+													Тема:
 											</div>
-											<div class="col-10">
-												<h5>{{ student.last_name }} {{ student.first_name }} {{ student.otchestvo }}</h5>
+											<div class="col-8">
+													<p>  {{ hometask.title }}</p>
 											</div>
+											<div class="col-4 text-danger">
+													Жиберилген дата:
+											</div>
+											<div class="col-8">
+													<p>  {{ hometask.date_send_task }}</p>
+											</div>
+											<div class="col-4 text-danger">
+													Тапшырма:
+											</div>
+											<div class="col-8">
+													<a href="{{ hometask.file.url }}" >{{ hometask.file }}</a>
+											</div>
+
+											<div class="col-4 text-danger">
+													Статус:
+											</div>
+											<div class="col-8">
+													<p>  {{ hometask.status }}</p>
+											</div>
+											<div class="col-4 text-danger">
+													Аткарылган күнү:
+											</div>
+											<div class="col-8">
+													<p>  {{ hometask.exec_date }}</p>
+											</div>
+
+											<div class="col-4 text-danger">
+													Жооп файл:
+											</div>
+											<div class="col-8">
+													<form method="post" action="{% url 'edithometask' hometask.pk %}" enctype="multipart/form-data">
+														{% csrf_token %}
+                                                    {{ form.as_p }}
+														<button type="submit" class="form-control btn btn-primary m-2">Жөнөтүү</button>
+                                                </form>
+											</div>
+
 										</div>
-										</a>
-										<hr>
-									{% endfor %}
+
 
 								</div>
 							</div>
