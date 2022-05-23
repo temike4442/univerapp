@@ -2,7 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from .views import home, IndexView,ChatsView,ChatView,send_message,CourseView,MaterialsView,HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog
+from .views import home, IndexView,ChatsView,ChatView,send_message,CourseView,MaterialsView,\
+    HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog,MaterialCreateView
 
 urlpatterns = [
     path('', home, name='home'),
@@ -12,6 +13,7 @@ urlpatterns = [
     path('checkdialog/<int:user_id>/',checkdialog,name='check_dialog'),
     path('course/<int:course_id>/',CourseView.as_view(),name='course_id'),
     path('course/<int:course_id>/materials/',MaterialsView.as_view(),name='materials'),
+    path('course/<int:course_id>/materials/add/',MaterialCreateView.as_view(),name='material_add'),
     path('course/<int:course_id>/hometask/',HomeTaskView.as_view(),name='hometasks'),
     path('course/<int:course_id>/hometask/<int:hometask_id>/',HomeTaskDetailView.as_view(),name='hometask_detail'),
     path('profile/<int:pk>/',ProfileView.as_view(),name='profile'),

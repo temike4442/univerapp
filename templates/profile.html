@@ -28,7 +28,9 @@
 								{% endif %}
 								<div class="mt-3">
 									<h4>{{ user_object.last_name }} {{ user_object.first_name }} {{ user_object.otchestvo }}</h4>
-									<a href="{% url 'check_dialog' user_object.pk %}"><button class="btn btn-outline-primary">Написать</button></a>
+									{% if user.pk != user_object.pk %}
+									<a href="{% url 'check_dialog' user_object.pk %}"><button class="btn btn-outline-primary">Кат жөнөтүү</button></a>
+									{% endif %}
 								</div>
 							</div>
 							<hr class="my-4">

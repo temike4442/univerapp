@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic import ListView, UpdateView, DetailView, CreateView
 from .models import *
 
 @login_required(login_url='login/')
@@ -93,15 +93,15 @@ def edithometask(request,pk):
 
 def checkdialog(request,user_id):
     get_dialog = Dialog.objects.filter(Q(user1=request.user.pk) & Q(user2=user_id) |
-                                    Q(user2=request.user.pk) & Q(user1=user_id)).first().pk
-    print(get_dialog)
+                                    Q(user2=request.user.pk) & Q(user1=user_id))
     if get_dialog:
-        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':get_dialog}))
+        pk_dialog = get_dialog.first().pk
+        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':pk_dialog}))
         #return reverse('hometasks', kwargs={'course_id': course})
     else:
         user_to = User.objects.get(pk=user_id)
         dialog_id = Dialog.objects.create(user1=request.user,user2=user_to)
-        return redirect('chat_id',kwargs={'dialog_id':dialog_id})
+        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':pk_dialog}))
 
 
 class MaterialsView(ListView):
@@ -153,3 +153,17 @@ class ProfileView(DetailView):
     model = User
     template_name = 'profile.html'
     context_object_name = 'user_object'
+
+class MaterialCreateView(CreateView):
+    model = Material
+    template_name = 'materialcreateview.html'
+    fields = ['title', 'file',]
+
+    def get_success_url(self):
+        course = self.kwargs.get('course_id')
+        return reverse('materials', kwargs={'course_id': course})
+
+    def get_context_data(self,**kwargs):
+        context = super(MaterialCreateView,self).get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
+        return context

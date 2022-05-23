@@ -76,8 +76,6 @@ class Dialog(models.Model):
 
 class Material(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE,related_name='course_materials')
-    send_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='material_send_user', null=True)
-    receiver_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='material_receiver_user', null=True)
     date_send_message = models.DateTimeField('Дата отправки', auto_now_add=True)
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
