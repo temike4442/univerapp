@@ -33,6 +33,11 @@
 							</div>
 							<hr class="my-4">
 								<div>
+									<a href="{% url 'index' %}">
+										<img src="{% static 'images/home.png' %}" style="width:20" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Башкы бетке </p></a>
+								</div>
+							<div>
 									<a href="{% url 'chats' %}">
 										<img src="{% static 'images/message.png' %}" style="width:20" class="ml-3">
 									<p style="display: inline-block;" class="ml-3">Келген каттар <span class="badge badge-success">New</span></p></a>
@@ -82,12 +87,21 @@
 							<div class="card">
 								<div class="card-body">
 									<h5 class="d-flex align-items-center mb-3">Катышкан курстар</h5>
+									{% if user.is_student == True %}
 									{% for course in user.course.all %}
 										<a href="{% url 'course_id' course.pk %}"><p>{{ course }}</p></a>
 									<div class="progress mb-3" style="height: 5px">
 										<div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 									{% endfor %}
+									{% else %}
+									{% for course in courses %}
+										<a href="{% url 'course_id' course.pk %}"><p>{{ course }}</p></a>
+									<div class="progress mb-3" style="height: 5px">
+										<div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									{% endfor %}
+									{% endif %}
 
 								</div>
 							</div>

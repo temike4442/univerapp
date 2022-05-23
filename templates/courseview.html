@@ -32,7 +32,11 @@
 								</div>
 							</div>
 							<hr class="my-4">
-
+								<div>
+									<a href="{% url 'index' %}">
+										<img src="{% static 'images/home.png' %}" style="width:20" class="ml-3">
+									<p style="display: inline-block;" class="ml-3">Башкы бетке </p></a>
+								</div>
 									<a href="{% url 'chats' %}">
 										<img src="{% static 'images/message.png' %}" style="width:20" class="ml-3">
 									<p style="display: inline-block;" class="ml-3">Келген каттар <span class="badge badge-success">New</span></p></a>
@@ -92,7 +96,7 @@
 									<h5 class="d-flex align-items-center mb-3">Студенттер тизмеси</h5>
 									<hr>
 									{% for student in students %}
-									<a href="#">
+									<a href="{% url 'profile' student.pk %}">
 										<div class="col-12 row">
 											<div class="col-2">
 												{% if student.image %}

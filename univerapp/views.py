@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DetailView
 from .models import *
-from .forms import HomeTaskForm
 
 @login_required(login_url='login/')
 def home(request):
@@ -13,6 +13,12 @@ def home(request):
 class IndexView(ListView):
     model = User
     template_name = 'home.html'
+
+    def get_context_data(self,**kwargs):
+        context = super(IndexView,self).get_context_data(**kwargs)
+        if (self.request.user.is_teacher == True):
+            context['courses'] = Course.objects.filter(teacher=self.request.user.pk)
+        return context
 
 
 class ChatsView(ListView):
@@ -32,13 +38,11 @@ class CourseView(ListView):
     def get_queryset(self):
         course_object = self.kwargs.get('course_id')
         query = User.objects.filter(course__pk=course_object)
-        print(query)
         return query
 
     def get_context_data(self,**kwargs):
         context = super(CourseView,self).get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
-        context['chats'] = Dialog.objects.filter(Q(user1=self.request.user.pk)|Q(user2=self.request.user.pk))
         return context
 
 class ChatView(ListView):
@@ -69,8 +73,12 @@ def send_message(request):
         text = request.POST.get("message_text", "")
         send_to = request.POST.get("send_to", "")
         receiver_user = User.objects.get(pk=send_to)
-        image = request.FILES['image']
-        Message.objects.create(send_user=request.user,receiver_user=receiver_user,title=text,file=image)
+
+        if len(request.FILES) != 0:
+            image = request.FILES['image']
+            Message.objects.create(send_user=request.user, receiver_user=receiver_user, title=text, file=image)
+        else:
+            Message.objects.create(send_user=request.user, receiver_user=receiver_user, title=text)
         return redirect('chats')
     else:
         return  redirect('chat/')
@@ -82,6 +90,18 @@ def edithometask(request,pk):
         return redirect('chats')
     else:
         return  redirect('chat/')
+
+def checkdialog(request,user_id):
+    get_dialog = Dialog.objects.filter(Q(user1=request.user.pk) & Q(user2=user_id) |
+                                    Q(user2=request.user.pk) & Q(user1=user_id)).first().pk
+    print(get_dialog)
+    if get_dialog:
+        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':get_dialog}))
+        #return reverse('hometasks', kwargs={'course_id': course})
+    else:
+        user_to = User.objects.get(pk=user_id)
+        dialog_id = Dialog.objects.create(user1=request.user,user2=user_to)
+        return redirect('chat_id',kwargs={'dialog_id':dialog_id})
 
 
 class MaterialsView(ListView):
@@ -118,15 +138,18 @@ class HomeTaskDetailView(UpdateView):
     model = HomeTask
     pk_url_kwarg = 'hometask_id'
     template_name = 'hometaskdetailview.html'
-    #success_url = 'hometasks'
     fields = ['exec_file', ]
 
     def get_success_url(self):
         course = self.kwargs.get('course_id')
         return reverse('hometasks', kwargs={'course_id': course})
-        #return redirect('hometasks',kwargs={'course_id':course})
 
     def get_context_data(self,**kwargs):
         context = super(HomeTaskDetailView,self).get_context_data(**kwargs)
         context['hometask'] = HomeTask.objects.get(pk=self.kwargs.get('hometask_id'))
         return context
+
+class ProfileView(DetailView):
+    model = User
+    template_name = 'profile.html'
+    context_object_name = 'user_object'
