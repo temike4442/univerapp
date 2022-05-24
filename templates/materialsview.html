@@ -101,6 +101,7 @@
 									{% for material in materials %}
 										<div class="col-12 row">
 											<div class="col-10">
+												<p>Дата добавления материала: {{ material.date_send_message }}</p>
 												<p>{{ material.title }}</p>
 												<a href="{{ material.file.url }}">{{ material.file }}</a>
 											</div>

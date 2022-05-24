@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from .views import home, IndexView,ChatsView,ChatView,send_message,CourseView,MaterialsView,\
-    HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog,MaterialCreateView
+    HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog,MaterialCreateView,HomeTaskAddView
 
 urlpatterns = [
     path('', home, name='home'),
@@ -15,10 +15,11 @@ urlpatterns = [
     path('course/<int:course_id>/materials/',MaterialsView.as_view(),name='materials'),
     path('course/<int:course_id>/materials/add/',MaterialCreateView.as_view(),name='material_add'),
     path('course/<int:course_id>/hometask/',HomeTaskView.as_view(),name='hometasks'),
+    path('course/<int:course_id>/hometask/add',HomeTaskAddView.as_view(),name='hometask_add'),
     path('course/<int:course_id>/hometask/<int:hometask_id>/',HomeTaskDetailView.as_view(),name='hometask_detail'),
     path('profile/<int:pk>/',ProfileView.as_view(),name='profile'),
     path('send_message/',send_message,name='send_message'),
-    path('edithometask/<int:pk>/',edithometask,name='edithometask'),
+    path('edithometask/<int:pk>/<int:course_id>/',edithometask,name='edithometask'),
     path('login/', auth_views.LoginView.as_view()),
     path('users/', include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

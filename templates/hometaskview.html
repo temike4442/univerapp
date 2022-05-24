@@ -94,12 +94,19 @@
 							<div class="card">
 								<div class="card-body">
 									<h5 class="d-flex align-items-center mb-3">Практикалык тапшырмалар {{ course.name }}</h5>
+									{% if user.pk == course.teacher.pk %}
+										<a href="{% url 'hometask_add' course.pk %}"> <button class="btn btn-primary"> Добавить </button> </a>
+									{% endif %}
 									<hr>
 									{% for hometask in hometasks %}
 										<div class="col-12 row">
-											<div class="col-10">
-
+											<div class="col-7">
+												<p> Жөнөтүлгөн дата: {{ hometask.date_send_task }}</p>
 												<a href="{% url 'hometask_detail' course.pk hometask.pk %}"><p>{{ hometask.title }}</p></a>
+											</div>
+											<div class="col-5">
+												статус:
+												<p class="text-success"> {{ hometask.status }}</p>
 											</div>
 										</div>
 

@@ -114,7 +114,8 @@
 											<div class="col-8">
 													<a href="{{ hometask.file.url }}" >{{ hometask.file }}</a>
 											</div>
-
+											<br>
+											<br>
 											<div class="col-4 text-danger">
 													Статус:
 											</div>
@@ -132,7 +133,7 @@
 													Жооп файл:
 											</div>
 											<div class="col-8">
-													<form method="post" action="{% url 'edithometask' hometask.pk %}" enctype="multipart/form-data">
+													<form method="post" action="{% url 'edithometask' hometask.pk course.pk %}" enctype="multipart/form-data">
 														{% csrf_token %}
                                                     {{ form.as_p }}
 														<button type="submit" class="form-control btn btn-primary m-2">Жөнөтүү</button>

@@ -83,11 +83,11 @@ def send_message(request):
     else:
         return  redirect('chat/')
 
-def edithometask(request,pk):
+def edithometask(request,pk,course_id):
     if request.method=='POST':
         file = request.FILES['exec_file']
-        HomeTask.objects.filter(pk=pk).update(exec_file=file)
-        return redirect('chats')
+        HomeTask.objects.filter(pk=pk).update(exec_file=file,status='ответ отправлен')
+        return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_id}))
     else:
         return  redirect('chat/')
 
@@ -101,7 +101,7 @@ def checkdialog(request,user_id):
     else:
         user_to = User.objects.get(pk=user_id)
         dialog_id = Dialog.objects.create(user1=request.user,user2=user_to)
-        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':pk_dialog}))
+        return HttpResponseRedirect(reverse('chat_id', kwargs={'dialog_id':dialog_id}))
 
 
 class MaterialsView(ListView):
@@ -126,7 +126,11 @@ class HomeTaskView(ListView):
 
     def get_queryset(self):
         course_object = self.kwargs.get('course_id')
-        query = HomeTask.objects.filter(course__pk=course_object,student=self.request.user.pk)
+        query = None
+        if(self.request.user.is_teacher):
+            query = HomeTask.objects.filter(course__pk=course_object)
+        else:
+            query = HomeTask.objects.filter(course__pk=course_object,student=self.request.user.pk)
         return query
 
     def get_context_data(self,**kwargs):
@@ -146,6 +150,8 @@ class HomeTaskDetailView(UpdateView):
 
     def get_context_data(self,**kwargs):
         context = super(HomeTaskDetailView,self).get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
         context['hometask'] = HomeTask.objects.get(pk=self.kwargs.get('hometask_id'))
         return context
 
@@ -159,11 +165,36 @@ class MaterialCreateView(CreateView):
     template_name = 'materialcreateview.html'
     fields = ['title', 'file',]
 
-    def get_success_url(self):
-        course = self.kwargs.get('course_id')
-        return reverse('materials', kwargs={'course_id': course})
+    def post(self, request, *args, **kwargs):
+        course_pk = kwargs.get('course_id')
+        course_object = Course.objects.get(pk=course_pk)
+        title = request.POST['title']
+        file = request.FILES['file']
+        Material.objects.create(course=course_object,title=title,file=file)
+        return HttpResponseRedirect(reverse('materials', kwargs={'course_id': course_pk}))
 
     def get_context_data(self,**kwargs):
         context = super(MaterialCreateView,self).get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
+        return context
+
+class HomeTaskAddView(CreateView):
+    model = HomeTask
+    template_name = 'hometaskcreateview.html'
+    fields = ['title', 'file',]
+
+    def post(self, request, *args, **kwargs):
+        course_pk = kwargs.get('course_id')
+        course_object = Course.objects.get(pk=course_pk)
+        title = request.POST['title']
+        file = request.FILES['file']
+        students = User.objects.filter(course__pk=course_object.pk)
+        for student in students:
+            HomeTask.objects.create(course=course_object,teacher=request.user,
+                                student=student,title=title,file=file,is_exec=False)
+        return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_pk}))
+
+    def get_context_data(self,**kwargs):
+        context = super(HomeTaskAddView,self).get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
         return context

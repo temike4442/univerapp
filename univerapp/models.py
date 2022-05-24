@@ -86,8 +86,8 @@ class Material(models.Model):
 
 class HomeTask(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='hometask_materials')
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='hometask_receiver_user',
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hometask_send_user', null=True)
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hometask_receiver_user',
                                          null=True)
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
     title = models.CharField(max_length=200, blank=True)
