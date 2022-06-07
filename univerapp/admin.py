@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
 from .forms import StudentUserCreationForm,TeacherUserCreationForm
 
@@ -32,12 +33,16 @@ class TeacherUserAdmin(UserAdmin):
                 'number', 'image')
         }),)
 
+class HomeTaskAdmin(ModelAdmin):
+    model = HomeTask
+    list_display = ('title','student','date_send_task','status')
+    list_filter = ['status',]
 
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Course)
 admin.site.register(Message)
 admin.site.register(Dialog)
 admin.site.register(Material)
-admin.site.register(HomeTask)
+admin.site.register(HomeTask,HomeTaskAdmin)
 admin.site.register(Student, CustomUserAdmin)
 admin.site.register(Teacher, TeacherUserAdmin)

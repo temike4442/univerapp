@@ -101,8 +101,9 @@
 									{% for hometask in hometasks %}
 										<div class="col-12 row">
 											<div class="col-7">
-												<p> Жөнөтүлгөн дата: {{ hometask.date_send_task }}</p>
 												<a href="{% url 'hometask_detail' course.pk hometask.pk %}"><p>{{ hometask.title }}</p></a>
+												<p> {{ hometask.date_send_task }}</p>
+
 											</div>
 											<div class="col-5">
 												статус:

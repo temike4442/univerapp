@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
+
 
 class Course(models.Model):
     name = models.CharField(max_length=100,null=False,verbose_name='Имя курса')
@@ -92,10 +93,10 @@ class HomeTask(models.Model):
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
-    is_exec = models.BooleanField(default=False)
+    is_exec = models.BooleanField('Аткарылды',default=False)
     exec_date = models.DateTimeField(null=True,blank=True)
-    exec_file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=True)
-    status = models.CharField('Статус',default='ожидает ответа',max_length=60)
+    exec_file = models.FileField('Файл ответа',upload_to='uploads/%Y/%m/%d/', blank=True)
+    status = models.CharField('Статус',default='Жооп күтүүдө',max_length=60)
 
     class Meta:
         verbose_name = 'Тапшырма'

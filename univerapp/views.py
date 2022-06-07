@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -86,7 +87,9 @@ def send_message(request):
 def edithometask(request,pk,course_id):
     if request.method=='POST':
         file = request.FILES['exec_file']
-        HomeTask.objects.filter(pk=pk).update(exec_file=file,status='ответ отправлен')
+        is_exec = request.POST.get('is_exec',False)
+        today = datetime.now()
+        HomeTask.objects.filter(pk=pk).update(exec_file=file,status='ответ отправлен',exec_date=today,is_exec=is_exec)
         return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_id}))
     else:
         return  redirect('chat/')
@@ -142,7 +145,7 @@ class HomeTaskDetailView(UpdateView):
     model = HomeTask
     pk_url_kwarg = 'hometask_id'
     template_name = 'hometaskdetailview.html'
-    fields = ['exec_file', ]
+    fields = ['exec_file',]
 
     def get_success_url(self):
         course = self.kwargs.get('course_id')

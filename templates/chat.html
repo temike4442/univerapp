@@ -79,6 +79,9 @@
                                         <span class="message-data-time">{{ message.date_send_message|date:'Y-m-d H:i' }}</span>
                                     </div>
                                     <div class="message my-message">{{ message.title }} </div>
+                                    {% if message.file %}
+                                    <a href="{{ message.file.url }}" >{{ message.file }}</a>
+                                    {% endif %}
                                 </li>
                             {% endif %}
                         {% endfor %}
