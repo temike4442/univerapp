@@ -89,7 +89,7 @@ def edithometask(request,pk,course_id):
         file = request.FILES['exec_file']
         is_exec = request.POST.get('is_exec',False)
         today = datetime.now()
-        HomeTask.objects.filter(pk=pk).update(exec_file=file,status='ответ отправлен',exec_date=today,is_exec=is_exec)
+        HomeTask.objects.filter(pk=pk).update(exec_file=file,status='Жооп жөнөтүлдү',exec_date=today,is_exec=is_exec)
         return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_id}))
     else:
         return  redirect('chat/')
@@ -131,7 +131,7 @@ class HomeTaskView(ListView):
         course_object = self.kwargs.get('course_id')
         query = None
         if(self.request.user.is_teacher):
-            query = HomeTask.objects.filter(course__pk=course_object)
+            query = HomeTaskMixing.objects.filter(course__pk=course_object)
         else:
             query = HomeTask.objects.filter(course__pk=course_object,student=self.request.user.pk)
         return query
@@ -192,6 +192,7 @@ class HomeTaskAddView(CreateView):
         title = request.POST['title']
         file = request.FILES['file']
         students = User.objects.filter(course__pk=course_object.pk)
+        HomeTaskMixing.objects.create(course=course_object, title=title, file=file)
         for student in students:
             HomeTask.objects.create(course=course_object,teacher=request.user,
                                 student=student,title=title,file=file,is_exec=False)

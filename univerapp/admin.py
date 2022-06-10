@@ -38,6 +38,11 @@ class HomeTaskAdmin(ModelAdmin):
     list_display = ('title','student','date_send_task','status')
     list_filter = ['status',]
 
+    def save_model(self, request, obj, form, change):
+        if obj.is_exec == True:
+            obj.status = 'Аткарылды'
+        super().save_model(request, obj, form, change)
+
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Course)
 admin.site.register(Message)

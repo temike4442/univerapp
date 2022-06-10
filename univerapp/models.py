@@ -95,9 +95,15 @@ class HomeTask(models.Model):
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
     is_exec = models.BooleanField('Аткарылды',default=False)
     exec_date = models.DateTimeField(null=True,blank=True)
-    exec_file = models.FileField('Файл ответа',upload_to='uploads/%Y/%m/%d/', blank=True)
+    exec_file = models.FileField('Жооп файл',upload_to='uploads/%Y/%m/%d/', blank=True)
     status = models.CharField('Статус',default='Жооп күтүүдө',max_length=60)
 
     class Meta:
         verbose_name = 'Тапшырма'
         verbose_name_plural = 'Тапшырмалар'
+
+class HomeTaskMixing(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
+    title = models.CharField(max_length=200, blank=True)
+    file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
