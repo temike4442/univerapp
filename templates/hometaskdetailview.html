@@ -140,7 +140,7 @@
 														<button type="submit" class="form-control btn btn-primary m-2">Сактоо</button>
 												{% else %}
 														<label for="id_exec_file">Файл ответа:</label>
-														На данный момент: <a href="{{ hometask.exec_file }}">{{ hometask.exec_file }}</a>
+														На данный момент: <a href="{{ hometask.exec_file.url }}">{{ hometask.exec_file.url }}</a>
 													<input type="checkbox" name="exec_file-clear" id="exec_file-clear_id">
 													Изменить:
 													<input type="file" name="exec_file" id="id_exec_file" >

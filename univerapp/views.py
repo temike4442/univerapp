@@ -1,5 +1,10 @@
+import os
 from datetime import datetime
+
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -90,6 +95,14 @@ def edithometask(request,pk,course_id):
         is_exec = request.POST.get('is_exec',False)
         today = datetime.now()
         HomeTask.objects.filter(pk=pk).update(exec_file=file,status='Жооп жөнөтүлдү',exec_date=today,is_exec=is_exec)
+        month= datetime.month
+        day = str(datetime.day)
+        #HomeTask.objects.filter(pk=pk).update(exec_file='uploads/2022/'+month+'/'+day+'/'+file)
+        #path = default_storage.save(settings.MEDIA_ROOT+'uploads/2022/'+month+'/'+day+'/'+file.name, ContentFile(file.read()))
+        path = default_storage.save( 'uploads/2022/0' +str(today.month) + '/' + str(today.day) + '/' + file.name,
+                                    ContentFile(file.read()))
+        HomeTask.objects.filter(pk=pk).update(exec_file=path)
+        #tmp_file = os.path.join(settings.MEDIA_ROOT, path)
         return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_id}))
     else:
         return  redirect('chat/')
