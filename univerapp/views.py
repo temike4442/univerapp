@@ -90,7 +90,8 @@ def send_message(request):
         return  redirect('chat/')
 
 def edithometask(request,pk,course_id):
-    if request.method=='POST':
+    file = request.FILES.get('exec_file',False)
+    if (request.method=='POST' and file!=False):
         file = request.FILES['exec_file']
         is_exec = request.POST.get('is_exec',False)
         today = datetime.now()
@@ -102,10 +103,9 @@ def edithometask(request,pk,course_id):
         path = default_storage.save( 'uploads/2022/0' +str(today.month) + '/' + str(today.day) + '/' + file.name,
                                     ContentFile(file.read()))
         HomeTask.objects.filter(pk=pk).update(exec_file=path)
-        #tmp_file = os.path.join(settings.MEDIA_ROOT, path)
         return HttpResponseRedirect(reverse('hometasks', kwargs={'course_id': course_id}))
     else:
-        return  redirect('chat/')
+        return  redirect('/')
 
 def checkdialog(request,user_id):
     get_dialog = Dialog.objects.filter(Q(user1=request.user.pk) & Q(user2=user_id) |

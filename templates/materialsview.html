@@ -83,7 +83,7 @@
 								</div>
 								<div class="col-sm-7 text-secondary">
 									<br>
-									<a href=""><h3>{{ course.teacher.last_name }}
+									<a href="{% url 'profile' course.teacher.pk %}"><h3>{{ course.teacher.last_name }}
 										{{ course.teacher.first_name }} {{ course.teacher.otchestvo }}</h3></a>
 								</div>
 							</div>

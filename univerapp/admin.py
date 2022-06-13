@@ -28,19 +28,21 @@ class TeacherUserAdmin(UserAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'last_name', 'first_name', 'otchestvo', 'username', 'password', 'birthday', 'address', 'email',
+                'last_name', 'first_name', 'otchestvo', 'username', 'password','user_permissions', 'birthday', 'address', 'email',
                 'is_student', 'is_teacher',
                 'number', 'image')
         }),)
 
 class HomeTaskAdmin(ModelAdmin):
     model = HomeTask
-    list_display = ('title','student','date_send_task','status')
-    list_filter = ['status',]
+    list_display = ('title','student','date_send_task','status','course')
+    list_filter = ('status','course',)
 
     def save_model(self, request, obj, form, change):
         if obj.is_exec == True:
             obj.status = 'Аткарылды'
+        if obj.exec_file == None:
+            obj.status = 'Кайра аткарууга жөнөтүлдү'
         super().save_model(request, obj, form, change)
 
 admin.site.register(User,MyUserAdmin)

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, Permission
 
 
 class Course(models.Model):
@@ -13,7 +13,7 @@ class Course(models.Model):
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
 
-class User(AbstractUser):
+class User(AbstractUser,PermissionsMixin):
     username = models.CharField(
         'Логин',
         max_length=150,
@@ -33,6 +33,14 @@ class User(AbstractUser):
     is_student = models.BooleanField('Студент', default=False)
     is_teacher = models.BooleanField('Учитель', default=False)
     image = models.ImageField(verbose_name='Фото', upload_to='uploads/accounts/', blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name="user_set",
+        related_query_name="user",
+    )
 
     class Meta:
         verbose_name = 'Пользователь'
