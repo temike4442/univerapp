@@ -36,12 +36,12 @@ class TeacherUserAdmin(UserAdmin):
 class HomeTaskAdmin(ModelAdmin):
     model = HomeTask
     list_display = ('title','student','date_send_task','status','course')
-    list_filter = ('status','course',)
+    list_filter = ('status','course__name',)
 
     def save_model(self, request, obj, form, change):
         if obj.is_exec == True:
             obj.status = 'Аткарылды'
-        if obj.exec_file == None:
+        if obj.exec_file == '':
             obj.status = 'Кайра аткарууга жөнөтүлдү'
         super().save_model(request, obj, form, change)
 
