@@ -3,7 +3,7 @@ from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
 from .forms import StudentUserCreationForm,TeacherUserCreationForm
 
-from .models import User,Student,Teacher,Course,Message,Material,HomeTask,Dialog
+from .models import *
 
 class MyUserAdmin(UserAdmin):
     list_display = ['last_name', 'first_name', 'birthday', 'username', 'email', 'password', ]
@@ -45,11 +45,27 @@ class HomeTaskAdmin(ModelAdmin):
             obj.status = 'Кайра аткарууга жөнөтүлдү'
         super().save_model(request, obj, form, change)
 
+class AnswerInline(admin.StackedInline):
+    model = Answer
+
+class QuestionAdmin(admin.StackedInline):
+    model = Question
+    inlines = [AnswerInline]
+    list_display = ['question','quiz']
+
+class QuizAdmin(admin.ModelAdmin):
+    model = Quiz
+    #inlines = [QuestionAdmin]
+
+
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Course)
 admin.site.register(Message)
 admin.site.register(Dialog)
 admin.site.register(Material)
+admin.site.register(Quiz,QuizAdmin)
+admin.site.register(Question,QuestionAdmin)
+#admin.site.register(Answer,AnswerInline)
 admin.site.register(HomeTask,HomeTaskAdmin)
 admin.site.register(Student, CustomUserAdmin)
 admin.site.register(Teacher, TeacherUserAdmin)

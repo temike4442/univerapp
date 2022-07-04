@@ -47,7 +47,7 @@ class User(AbstractUser,PermissionsMixin):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.username
+        return self.first_name + self.last_name
 
 class Student(User):
 
@@ -115,3 +115,37 @@ class HomeTaskMixing(models.Model):
     date_send_task = models.DateTimeField('Дата отправки', auto_now_add=True)
     title = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=False)
+
+class Quiz(models.Model):
+    name = models.CharField(max_length=100,default='Текст вопроса')
+    course = models.ForeignKey(Course,on_delete=models.CASCADE,related_name='quizzes')
+
+    class Meta:
+        verbose_name = 'Тест'
+        verbose_name_plural = 'Тесттер'
+
+    def __str__(self):
+        return self.name
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE)
+    question = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Вопрос'
+        verbose_name_plural = 'Вопросы'
+
+    def __str__(self):
+        return self.question
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    answer = models.CharField(max_length=100)
+    is_correct = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
+
+    def __str__(self):
+        return self.answer
