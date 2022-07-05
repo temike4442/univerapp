@@ -48,7 +48,7 @@ class HomeTaskAdmin(ModelAdmin):
 class AnswerInline(admin.StackedInline):
     model = Answer
 
-class QuestionAdmin(admin.StackedInline):
+class QuestionAdmin(admin.ModelAdmin):
     model = Question
     inlines = [AnswerInline]
     list_display = ['question','quiz']

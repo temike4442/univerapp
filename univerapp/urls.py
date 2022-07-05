@@ -19,6 +19,8 @@ urlpatterns = [
     path('course/<int:course_id>/hometask/<int:hometask_id>/',HomeTaskDetailView.as_view(),name='hometask_detail'),
     path('profile/<int:pk>/',ProfileView.as_view(),name='profile'),
     path('send_message/',send_message,name='send_message'),
+    path('test/',TestsView.as_view(),name='tests'),
+    path('test/<int:test_id>/',TestView.as_view(),name='test_id'),
     path('edithometask/<int:pk>/<int:course_id>/',edithometask,name='edithometask'),
     path('login/', auth_views.LoginView.as_view()),
     path('users/', include('django.contrib.auth.urls')),
