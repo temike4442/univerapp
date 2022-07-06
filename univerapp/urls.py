@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from .views import home, IndexView,ChatsView,ChatView,send_message,CourseView,MaterialsView,\
-    HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog,MaterialCreateView,HomeTaskAddView
+    HomeTaskView,HomeTaskDetailView,edithometask,ProfileView,checkdialog,MaterialCreateView,HomeTaskAddView,TestsView,TestView
 
 urlpatterns = [
     path('', home, name='home'),
@@ -19,8 +19,8 @@ urlpatterns = [
     path('course/<int:course_id>/hometask/<int:hometask_id>/',HomeTaskDetailView.as_view(),name='hometask_detail'),
     path('profile/<int:pk>/',ProfileView.as_view(),name='profile'),
     path('send_message/',send_message,name='send_message'),
-    path('test/',TestsView.as_view(),name='tests'),
-    path('test/<int:test_id>/',TestView.as_view(),name='test_id'),
+    path('test/<int:course_id>/',TestsView.as_view(),name='tests'),
+    path('test/<int:course_id>/<int:test_id>/',TestView.as_view(),name='test_id'),
     path('edithometask/<int:pk>/<int:course_id>/',edithometask,name='edithometask'),
     path('login/', auth_views.LoginView.as_view()),
     path('users/', include('django.contrib.auth.urls')),

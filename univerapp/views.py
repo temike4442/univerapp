@@ -213,3 +213,9 @@ class HomeTaskAddView(CreateView):
         context = super(HomeTaskAddView,self).get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs.get('course_id'))
         return context
+
+class TestsView(ListView):
+    pass
+
+class TestView(ListView):
+    pass

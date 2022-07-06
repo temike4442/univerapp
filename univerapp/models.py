@@ -149,3 +149,8 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer
+
+class TestResult(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='quizes')
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='results')
+    result = models.SmallIntegerField('Результат',null=True,blank=True)
